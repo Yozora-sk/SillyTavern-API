@@ -1,11 +1,19 @@
-/* 为新的 UI 元素添加样式 */
-#quota_check_settings {
-    border: 1px solid var(--border-color);
+.js_slash_runner_quota_check_settings .inline-drawer-content {
     padding: 10px;
+    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+    border-radius: 5px;
+}
+
+.js_slash_runner_quota_check_settings .flex-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label and checkbox */
     margin-bottom: 10px;
 }
 
-#quota_check_settings label {
-    display: block; /* 使 label 独占一行 */
-    margin-bottom: 5px;
+/* Style for the checkbox (optional, for better visibility) */
+.js_slash_runner_quota_check_settings input[type="checkbox"] {
+    cursor: pointer;
 }
+
