@@ -1,13 +1,19 @@
 // @ts-nocheck
-import { eventSource, event_types, saveSettingsDebounced } from "../../../../../script.js";
-import { extension_settings, renderExtensionTemplateAsync } from "../../../../extensions.js";
+import {
+    eventSource,
+    event_types,
+    saveSettingsDebounced,
+} from "../../../../../script.js";
+import {
+    extension_settings,
+    renderExtensionTemplateAsync,
+} from "../../../../extensions.js";
 
-const extensionName = "Quota-Check";
+const extensionName = "JS-Slash-Runner-Quota-Check";
 const extensionFolderPath = `third-party/${extensionName}`;
 
 const defaultSettings = {
     activate_setting: true,
-    stop_on_quota: true, // 新增设置：是否在 Out of quota 时停止
 };
 
 let originalConsoleLog = console.log;
@@ -21,31 +27,31 @@ function loadSettings() {
         saveSettingsDebounced();
     }
 
-    // 更新 UI 状态
-    $("#quota_check_activate_setting").prop("checked", extension_settings[extensionName].activate_setting);
-    $("#stop_on_quota").prop("checked", extension_settings[extensionName].stop_on_quota);
+    $("#activate_setting").prop("checked", extension_settings[extensionName].activate_setting);
 }
+
 
 function checkForQuotaError(message) {
     if (typeof message === 'string' && message.includes("Out of quota")) {
-        if (extension_settings[extensionName].stop_on_quota) {
-            eventSource.emit("stop_generation");
-            console.log("检测到 Out of quota，已触发停止生成事件");
-        }
+        // 触发一个自定义事件来通知其他部分停止生成
+        eventSource.emit("stop_generation");
+        console.log("检测到 Out of quota，已触发停止生成事件");
     }
 }
+
+
 function overrideConsoleMethods() {
-  console.log = function(...args) {
+    console.log = function (...args) {
         args.forEach(checkForQuotaError);
         originalConsoleLog.apply(console, args);
     };
 
-    console.warn = function(...args) {
+    console.warn = function (...args) {
         args.forEach(checkForQuotaError);
         originalConsoleWarn.apply(console, args);
     };
 
-    console.error = function(...args) {
+    console.error = function (...args) {
         args.forEach(checkForQuotaError);
         originalConsoleError.apply(console, args);
     };
@@ -56,8 +62,9 @@ function restoreConsoleMethods() {
     console.warn = originalConsoleWarn;
     console.error = originalConsoleError;
 }
+
 async function onExtensionToggle() {
-    const isEnabled = Boolean($("#quota_check_activate_setting").prop("checked"));
+    const isEnabled = Boolean($("#activate_setting").prop("checked"));
     extension_settings[extensionName].activate_setting = isEnabled;
 
     if (isEnabled) {
@@ -68,34 +75,21 @@ async function onExtensionToggle() {
     saveSettingsDebounced();
 }
 
-// 新增：处理设置更改的函数
-async function onStopOnQuotaChange() {
-    const stopOnQuota = Boolean($("#stop_on_quota").prop("checked"));
-    extension_settings[extensionName].stop_on_quota = stopOnQuota;
-    saveSettingsDebounced();
-}
 
+async function renderSettings() {
+    const template = await renderExtensionTemplateAsync(extensionFolderPath, 'settings');
+    $('#extensions_settings').append(template);
 
-async function renderUI() {
-    const ui = $(await renderExtensionTemplateAsync(extensionFolderPath, "ui"));
-
-    // 设置复选框的初始状态, 监听change事件
-    ui.find("#quota_check_activate_setting")
-      .prop("checked", extension_settings[extensionName]?.activate_setting ?? defaultSettings.activate_setting)
-      .on("change", onExtensionToggle);
-
-    ui.find("#stop_on_quota")
-      .prop("checked", extension_settings[extensionName]?.stop_on_quota ?? defaultSettings.stop_on_quota)
-      .on("change", onStopOnQuotaChange);
-
-
-    $("#extensions_settings").prepend(ui); //确保设置在顶上
-}
-
-$(document).ready(async function () {
-    await renderUI();
     loadSettings();
+
+
+    $("#activate_setting").click(onExtensionToggle);
+
+    // Add quota check on document ready
     if (extension_settings[extensionName]?.activate_setting) {
         overrideConsoleMethods();
     }
-});
+}
+
+renderSettings();
+
