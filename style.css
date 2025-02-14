@@ -1,0 +1,11 @@
+/* 为新的 UI 元素添加样式 */
+#quota_check_settings {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#quota_check_settings label {
+    display: block; /* 使 label 独占一行 */
+    margin-bottom: 5px;
+}
