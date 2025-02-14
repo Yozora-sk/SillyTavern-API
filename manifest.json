@@ -1,12 +1,11 @@
 {
-    "display_name": "Quota-Check",
-    "loading_order": 100,
+    "display_name": "Quota Check",
+    "loading_order": 1,
     "requires": [],
     "optional": [],
     "js": "index.js",
     "css": "style.css",
     "author": "十四行诗",
     "version": "1.0.0",
-    "homePage": "",
-    "auto_update": true
-  }
+    "homePage": "https://github.com/Yozora-sk/SillyTavern-API"
+}
