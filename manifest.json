@@ -3,7 +3,7 @@
     "loading_order": 100,
     "requires": [],
     "optional": [],
-    "js": "dist/index.js",
+    "js": "index.js",
     "css": "style.css",
     "author": "十四行诗",
     "version": "1.0.0",
