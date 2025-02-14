@@ -1,19 +1,7 @@
-.js_slash_runner_quota_check_settings .inline-drawer-content {
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
-    border-radius: 5px;
-}
+/* You can add custom styles for your extension here, if needed.
+   For this specific extension, we don't need any special styles.
+   We can leave it empty or add a simple placeholder. */
 
-.js_slash_runner_quota_check_settings .flex-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between label and checkbox */
-    margin-bottom: 10px;
+#quota_check_container {
+    /* Add any styling for the settings container if needed */
 }
-
-/* Style for the checkbox (optional, for better visibility) */
-.js_slash_runner_quota_check_settings input[type="checkbox"] {
-    cursor: pointer;
-}
-
