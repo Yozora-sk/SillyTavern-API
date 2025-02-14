@@ -1,37 +1,42 @@
 {
   "name": "OutOfQuotaTerminator",
   "display_name": "Out Of Quota Terminator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Automatically terminates responses when API quota is exceeded.",
   "author": "十四行诗",
   "github": "Yozora-sk/SillyTavern-API",
   "main": "OutOfQuotaTerminator.plugin.js",
-  "dependencies": [],
-  "configuration": {
-    "schema": {
-      "type": "object",
-      "properties": {
-        "quotaErrorMessages": {
-          "type": "string",
-          "title": "Quota Error Keywords (one per line)",
-          "description": "Keywords to identify quota errors.",
-          "default": "Out of quota\nAPI quota exceeded\n429\ninsufficient_quota",
-          "ui:widget": "textarea"
-        },
-        "toastMessage": {
-          "type": "string",
-          "title": "Toast Message",
-          "description": "Message to display when quota is exceeded.",
-          "default": "API quota has been exhausted. Please try again later or change your API key."
-        },
-        "toastDuration": {
-          "type": "integer",
-          "title": "Toast Duration (ms)",
-          "description": "How long the toast message should be displayed.",
-          "default": 3000
+  "loading_order": 50,
+  "requires": [],
+  "optional": [],
+  "js": "OutOfQuotaTerminator.js",
+  "css": "",
+  "homePage": "https://github.com/Yozora-sk/SillyTavern-API",
+  "auto_update": true,
+    "configuration": {
+        "schema": {
+            "type": "object",
+            "properties": {
+                "quotaErrorMessages": {
+                    "type": "string",
+                    "title": "Quota Error Keywords (one per line)",
+                    "description": "Keywords to identify quota errors.",
+                    "default": "Out of quota\nAPI quota exceeded\n429\ninsufficient_quota\nquota_exceeded\nrate limit exceeded\ntoo many requests",
+                    "ui:widget": "textarea"
+                },
+                "toastMessage": {
+                    "type": "string",
+                    "title": "Toast Message",
+                    "description": "Message to display when quota is exceeded.",
+                    "default": "API quota has been exhausted. Please try again later or change your API key."
+                },
+                "toastDuration": {
+                    "type": "integer",
+                    "title": "Toast Duration (ms)",
+                    "description": "How long the toast message should be displayed.",
+                    "default": 3000
+                }
+            }
         }
-      }
     }
-  }
 }
-
